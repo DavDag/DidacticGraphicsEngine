@@ -78,7 +78,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.ixx" />
+    <ClCompile Include="src\core\assert.ixx" />
+    <ClCompile Include="src\core\core.ixx" />
+    <ClCompile Include="src\core\log.ixx" />
+    <ClCompile Include="src\math\math.ixx" />
+    <ClCompile Include="src\math\vec2.ixx" />
+    <ClCompile Include="src\core\types.ixx" />
+    <ClCompile Include="src\engine.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

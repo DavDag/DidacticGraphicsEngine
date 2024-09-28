@@ -1,0 +1,3 @@
+[i] mple_OpenGL\src\main.ixx:15  >>> Starting application: E:\Extra\DidacticGraphicsEngine\x64\Release\Simple_OpenGL.exe
+[w] mple_OpenGL\src\main.ixx:16  >>> Starting application: E:\Extra\DidacticGraphicsEngine\x64\Release\Simple_OpenGL.exe
+[e] mple_OpenGL\src\main.ixx:17  >>> Starting application: E:\Extra\DidacticGraphicsEngine\x64\Release\Simple_OpenGL.exe
