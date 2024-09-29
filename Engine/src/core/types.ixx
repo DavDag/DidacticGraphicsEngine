@@ -63,8 +63,8 @@ export constexpr f64 F64_MIN = std::numeric_limits<f64>::min();
 export constexpr f32 F32_MAX = std::numeric_limits<f32>::max();
 export constexpr f64 F64_MAX = std::numeric_limits<f64>::max();
 
-export constexpr f32 F32_EPSILON = std::numeric_limits<f32>::epsilon();
-export constexpr f64 F64_EPSILON = std::numeric_limits<f64>::epsilon();
+export constexpr f32 F32_EPSILON = 1e-5f;
+export constexpr f64 F64_EPSILON = 1e-8f;
 
 // 
 // Special types

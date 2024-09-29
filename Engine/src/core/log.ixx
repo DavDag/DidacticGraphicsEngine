@@ -85,8 +85,7 @@ constexpr inline void __Log(
 
 export
 template<typename... Args>
-struct FLogDebug
-{
+struct FLogDebug {
     FLogDebug(
         std::ostream& out,
         const std::string& message,
@@ -101,8 +100,7 @@ struct FLogDebug
 
 export
 template<typename... Args>
-struct LogDebug
-{
+struct LogDebug {
     LogDebug(
         const std::string& message,
         Args&&... args,
@@ -116,8 +114,7 @@ struct LogDebug
 
 export
 template<typename... Args>
-struct FLogInfo
-{
+struct FLogInfo {
     FLogInfo(
         std::ostream& out,
         const std::string& message,
@@ -130,8 +127,7 @@ struct FLogInfo
 
 export
 template<typename... Args>
-struct LogInfo
-{
+struct LogInfo {
 	LogInfo(
 		const std::string& message,
 		Args&&... args,
@@ -143,8 +139,7 @@ struct LogInfo
 
 export
 template<typename... Args>
-struct FLogWarning
-{
+struct FLogWarning {
     FLogWarning(
         std::ostream& out,
         const std::string& message,
@@ -157,8 +152,7 @@ struct FLogWarning
 
 export
 template<typename... Args>
-struct LogWarning
-{
+struct LogWarning {
 	LogWarning(
 		const std::string& message,
 		Args&&... args,
@@ -170,8 +164,7 @@ struct LogWarning
 
 export
 template<typename... Args>
-struct FLogError
-{
+struct FLogError {
     FLogError(
         std::ostream& out,
         const std::string& message,
@@ -184,8 +177,7 @@ struct FLogError
 
 export
 template<typename... Args>
-struct LogError
-{
+struct LogError {
 	LogError(
 		const std::string& message,
 		Args&&... args,
