@@ -1,5 +1,5 @@
-export module core.tests;
+export module engine.core.tests;
 
-export import core.types.tests;
-export import core.assert.tests;
-export import core.log.tests;
+export import engine.core.types.tests;
+export import engine.core.assert.tests;
+export import engine.core.log.tests;

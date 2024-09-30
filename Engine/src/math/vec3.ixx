@@ -1,6 +1,6 @@
-export module math.vec3;
+export module engine.math.vec3;
 
-import core;
+import engine.core;
 
 /**
  * @brief A simple 3D vector class.

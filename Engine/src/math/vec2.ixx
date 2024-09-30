@@ -1,6 +1,6 @@
-export module math.vec2;
+export module engine.math.vec2;
 
-import core;
+import engine.core;
 
 /**
  * @brief A simple 2D vector class.

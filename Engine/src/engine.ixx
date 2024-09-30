@@ -1,4 +1,4 @@
 export module engine;
 
-export import core;
-export import math;
+export import engine.core;
+export import engine.math;

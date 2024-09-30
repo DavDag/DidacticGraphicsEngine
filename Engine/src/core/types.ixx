@@ -1,4 +1,4 @@
-export module core.types;
+export module engine.core.types;
 
 export import std;
 
@@ -64,7 +64,7 @@ export constexpr f32 F32_MAX = std::numeric_limits<f32>::max();
 export constexpr f64 F64_MAX = std::numeric_limits<f64>::max();
 
 export constexpr f32 F32_EPSILON = 1e-5f;
-export constexpr f64 F64_EPSILON = 1e-8f;
+export constexpr f64 F64_EPSILON = 1e-10;
 
 // 
 // Special types
@@ -72,3 +72,11 @@ export constexpr f64 F64_EPSILON = 1e-8f;
 
 export using byte = u8;
 export using size = std::size_t;
+
+static_assert(sizeof(byte) == 1);
+static_assert(sizeof(size) == 8);
+
+export constexpr byte BYTE_MIN = U8_MIN;
+export constexpr size SIZE_MIN = U64_MIN;
+export constexpr byte BYTE_MAX = U8_MAX;
+export constexpr size SIZE_MAX = U64_MAX;

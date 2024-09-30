@@ -7,7 +7,7 @@ file(COPY ${StdFiles} DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/ext/std")
 
 target_sources(
 	DGE_lib
-	PRIVATE
+	PUBLIC
 	FILE_SET CXX_MODULES FILES
 	"ext/std/std.ixx"
 	"ext/std/std.compat.ixx"
@@ -16,7 +16,7 @@ target_sources(
 # Add sources
 target_sources(
 	DGE_lib
-	PRIVATE
+	PUBLIC
 	FILE_SET CXX_MODULES FILES
 	"src/core/types.ixx"
 	"src/core/log.ixx"

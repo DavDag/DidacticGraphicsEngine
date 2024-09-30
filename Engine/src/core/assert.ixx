@@ -1,7 +1,7 @@
-export module core.assert;
+export module engine.core.assert;
 
-import core.types;
-import core.log;
+import engine.core.types;
+import engine.core.log;
 
 export
 inline void Assert(

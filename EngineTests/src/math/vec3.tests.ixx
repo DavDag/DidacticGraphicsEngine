@@ -1,1 +1,3 @@
-export module math.vec3.tests;
+export module engine.math.vec3.tests;
+
+import engine.math.vec3;

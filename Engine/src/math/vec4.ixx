@@ -1,6 +1,6 @@
-export module math.vec4;
+export module engine.math.vec4;
 
-import core;
+import engine.core;
 
 /**
  * @brief A simple 4D vector class.

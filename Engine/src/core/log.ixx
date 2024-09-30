@@ -1,6 +1,6 @@
-export module core.log;
+export module engine.core.log;
 
-import core.types;
+import engine.core.types;
 
 // 
 // Log functions

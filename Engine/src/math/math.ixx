@@ -1,5 +1,5 @@
-export module math;
+export module engine.math;
 
-export import math.vec2;
-export import math.vec3;
-export import math.vec4;
+export import engine.math.vec2;
+export import engine.math.vec3;
+export import engine.math.vec4;
