@@ -27,7 +27,7 @@ import engine.core.types;
 // 
 
 template<bool C, int L> requires(L >= 0 && L < 4)
-    constexpr inline const char* __LogPrefix() noexcept {
+constexpr inline const char* __LogPrefix() noexcept {
     if constexpr (C) {
         if constexpr (L == 0) return "\033[1;30m[d] ";
         else if constexpr (L == 1) return "\033[1;37m[i] ";
@@ -44,25 +44,25 @@ template<bool C, int L> requires(L >= 0 && L < 4)
 }
 
 template<bool C, int L> requires(L >= 0 && L < 4)
-    constexpr inline const char* __LogSuffix() noexcept {
-    if constexpr (C) {
-        return "\033[0m";
-    }
-    else {
-        return "";
-    }
+constexpr inline const char* __LogSuffix() noexcept {
+	if constexpr (C) {
+		return "\033[0m";
+	}
+	else {
+		return "";
+	}
 }
 
 template<bool C, int L, typename... Args> requires(L >= 0 && L < 4)
-    constexpr inline void __Log(
-        std::ostream& out,
-        const std::source_location& src,
-        const std::string& message,
-        Args&&... args
-    ) {
+constexpr inline void __Log(
+    std::ostream& out,
+    const std::source_location& src,
+    const std::string& message,
+    Args&&... args
+) {
     constexpr const char* prefix = __LogPrefix<C, L>();
-    constexpr const char* suffix = __LogSuffix<C, L>();
-    const std::string file_name = src.file_name();
+	constexpr const char* suffix = __LogSuffix<C, L>();
+	const std::string file_name = src.file_name();
     out
         << prefix
         << std::format(
@@ -128,13 +128,13 @@ struct FLogInfo {
 export
 template<typename... Args>
 struct LogInfo {
-    LogInfo(
-        const std::string& message,
-        Args&&... args,
-        const std::source_location& src = std::source_location::current()
-    ) {
+	LogInfo(
+		const std::string& message,
+		Args&&... args,
+		const std::source_location& src = std::source_location::current()
+	) {
         __Log<true, 1>(std::cout, src, message, args...);
-    }
+	}
 };
 
 export
@@ -153,13 +153,13 @@ struct FLogWarning {
 export
 template<typename... Args>
 struct LogWarning {
-    LogWarning(
-        const std::string& message,
-        Args&&... args,
-        const std::source_location& src = std::source_location::current()
-    ) {
+	LogWarning(
+		const std::string& message,
+		Args&&... args,
+		const std::source_location& src = std::source_location::current()
+	) {
         __Log<true, 2>(std::cout, src, message, args...);
-    }
+	}
 };
 
 export
@@ -178,13 +178,13 @@ struct FLogError {
 export
 template<typename... Args>
 struct LogError {
-    LogError(
-        const std::string& message,
-        Args&&... args,
-        const std::source_location& src = std::source_location::current()
-    ) {
+	LogError(
+		const std::string& message,
+		Args&&... args,
+		const std::source_location& src = std::source_location::current()
+	) {
         __Log<true, 3>(std::cerr, src, message, args...);
-    }
+	}
 };
 
 // Deduction guide:

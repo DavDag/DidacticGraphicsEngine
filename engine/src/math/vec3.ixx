@@ -9,12 +9,12 @@ template<typename T>
 class Vec3 {
 public:
     // Members
-    T x, y, z;
+	T x, y, z;
 
     // Constructors
     Vec3(const Vec3& other) noexcept = default;
     Vec3(Vec3&& other) noexcept = default;
-    Vec3() noexcept : x(0), y(0), z(0) {}
+	Vec3() noexcept : x(0), y(0), z(0) {}
     Vec3(T x, T y, T z) noexcept : x(x), y(y), z(z) { DebugAssert(!hasNaNs(), "Vec3 contains NaN"); }
 
     // Conversion constructors
@@ -64,7 +64,7 @@ public:
     static const Vec3<T> One;
     static const Vec3<T> UnitX;
     static const Vec3<T> UnitY;
-    static const Vec3<T> UnitZ;
+	static const Vec3<T> UnitZ;
 };
 
 export {
@@ -105,7 +105,7 @@ T& Vec3<T>::operator[](int index) noexcept {
     switch (index) {
     case 0: return x;
     case 1: return y;
-    case 2: return z;
+	case 2: return z;
     }
 }
 
@@ -115,13 +115,13 @@ const T& Vec3<T>::operator[](int index) const noexcept {
     switch (index) {
     case 0: return x;
     case 1: return y;
-    case 2: return z;
+	case 2: return z;
     }
 }
 
 template<typename T>
 bool Vec3<T>::operator==(const Vec3& other) const noexcept {
-    return x == other.x && y == other.y && z == other.z;
+	return x == other.x && y == other.y && z == other.z;
 }
 
 template<typename T>
@@ -134,52 +134,52 @@ template<>
 bool Vec3<f32>::operator==(const Vec3& other) const noexcept {
     return std::fabs(x - other.x) < F32_EPSILON
         && std::fabs(y - other.y) < F32_EPSILON
-        && std::fabs(z - other.z) < F32_EPSILON;
+		&& std::fabs(z - other.z) < F32_EPSILON;
 }
 
 template<>
 bool Vec3<f64>::operator==(const Vec3& other) const noexcept {
     return std::abs(x - other.x) < F64_EPSILON
         && std::abs(y - other.y) < F64_EPSILON
-        && std::abs(z - other.z) < F64_EPSILON;
+		&& std::abs(z - other.z) < F64_EPSILON;
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::operator+(const Vec3& other) const noexcept {
-    return Vec3(x + other.x, y + other.y, z + other.z);
+	return Vec3(x + other.x, y + other.y, z + other.z);
 }
 
 template<typename T>
 Vec3<T>& Vec3<T>::operator+=(const Vec3& other) noexcept {
     x += other.x;
     y += other.y;
-    z += other.z;
+	z += other.z;
     return *this;
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::operator-(const Vec3& other) const noexcept {
-    return Vec3(x - other.x, y - other.y, z - other.z);
+	return Vec3(x - other.x, y - other.y, z - other.z);
 }
 
 template<typename T>
 Vec3<T>& Vec3<T>::operator-=(const Vec3& other) noexcept {
     x -= other.x;
     y -= other.y;
-    z -= other.z;
+	z -= other.z;
     return *this;
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::operator*(const T& scalar) const noexcept {
-    return Vec3(x * scalar, y * scalar, z * scalar);
+	return Vec3(x * scalar, y * scalar, z * scalar);
 }
 
 template<typename T>
 Vec3<T>& Vec3<T>::operator*=(const T& scalar) noexcept {
     x *= scalar;
     y *= scalar;
-    z *= scalar;
+	z *= scalar;
     return *this;
 }
 
@@ -187,7 +187,7 @@ template<typename T>
 Vec3<T> Vec3<T>::operator/(const T& scalar) const noexcept {
     DebugAssert(scalar != 0, "Division by zero");
     f32 inv = 1 / scalar;
-    return Vec3(x * inv, y * inv, z * inv);
+	return Vec3(x * inv, y * inv, z * inv);
 }
 
 // override for f64 (otherwise the precision is lost)
@@ -195,7 +195,7 @@ template<>
 Vec3<f64> Vec3<f64>::operator/(const f64& scalar) const noexcept {
     DebugAssert(scalar != 0, "Division by zero");
     f64 inv = 1 / scalar;
-    return Vec3(x * inv, y * inv, z * inv);
+	return Vec3(x * inv, y * inv, z * inv);
 }
 
 template<typename T>
@@ -204,7 +204,7 @@ Vec3<T>& Vec3<T>::operator/=(const T& scalar) noexcept {
     f32 inv = 1 / scalar;
     x *= inv;
     y *= inv;
-    z *= inv;
+	z *= inv;
     return *this;
 }
 
@@ -215,28 +215,28 @@ Vec3<f64>& Vec3<f64>::operator/=(const f64& scalar) noexcept {
     f64 inv = 1 / scalar;
     x *= inv;
     y *= inv;
-    z *= inv;
+	z *= inv;
     return *this;
 }
 
 template<typename T>
 bool Vec3<T>::hasNaNs() const noexcept {
-    return std::isnan(x) || std::isnan(y) || std::isnan(z);
+	return std::isnan(x) || std::isnan(y) || std::isnan(z);
 }
 
 template<typename T>
 T Vec3<T>::dot(const Vec3& other) const noexcept {
-    return x * other.x + y * other.y + z * other.z;
+	return x * other.x + y * other.y + z * other.z;
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::cross(const Vec3& other) const noexcept {
-    f64 ax = x, ay = y, az = z;
-    f64 bx = other.x, by = other.y, bz = other.z;
-    return static_cast<Vec3<T>>(Vec3(
-        ay * bz - az * by,
-        az * bx - ax * bz,
-        ax * by - ay * bx
+	f64 ax = x, ay = y, az = z;
+	f64 bx = other.x, by = other.y, bz = other.z;
+	return static_cast<Vec3<T>>(Vec3(
+		ay * bz - az * by,
+		az * bx - ax * bz,
+		ax * by - ay * bx
     ));
 }
 
@@ -247,7 +247,7 @@ T Vec3<T>::length() const noexcept {
 
 template<typename T>
 T Vec3<T>::lengthSquared() const noexcept {
-    return x * x + y * y + z * z;
+	return x * x + y * y + z * z;
 }
 
 template<typename T>
@@ -268,19 +268,19 @@ T Vec3<T>::minComponent() const noexcept {
 
 template<typename T>
 T Vec3<T>::maxComponent() const noexcept {
-    return std::max(x, y, z);
+	return std::max(x, y, z);
 }
 
 template<typename T>
 Vec3<T> Vec3<T>::negated() const noexcept {
-    return Vec3(-x, -y, -z);
+	return Vec3(-x, -y, -z);
 }
 
 template<typename T>
 Vec3<T>& Vec3<T>::negate() noexcept {
     x = -x;
     y = -y;
-    z = -z;
+	z = -z;
     return *this;
 }
 
