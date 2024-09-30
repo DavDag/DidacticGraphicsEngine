@@ -26,7 +26,9 @@ set(VCToolsInstallDir "C:/Program Files/Microsoft Visual Studio/2022/Community/V
 file(GLOB VCToolsInstallDir "${VCToolsInstallDir}/*")                                          # But using this, we can generalize
 list(GET VCToolsInstallDir 0 VCToolsInstallDir)                                                # and allow any version of MSVC (2022)
 
+enable_testing()
+
 # Projects
-add_subdirectory(Engine)
-add_subdirectory(EngineTests)
-add_subdirectory(Simple_OpenGL)
+add_subdirectory(engine)
+add_subdirectory(tests)
+add_subdirectory(samples)

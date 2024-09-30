@@ -1,9 +1,9 @@
 # Create application
-add_executable(DGE_sample_opengl)
+add_executable(simple_opengl)
 
 # Add sources
 target_sources(
-	DGE_sample_opengl
+	simple_opengl
 	PRIVATE
 	FILE_SET CXX_MODULES FILES
 	"src/main.ixx"
@@ -11,6 +11,6 @@ target_sources(
 
 # Link libraries
 target_link_libraries(
-	DGE_sample_opengl
-	PRIVATE DGE_lib
+	simple_opengl
+	PRIVATE dge_lib
 )

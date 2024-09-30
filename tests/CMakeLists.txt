@@ -8,11 +8,11 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
 FetchContent_MakeAvailable(googletest)
 
 # Create application
-add_executable(DGE_lib_tests)
+add_executable(dge_lib_tests)
 
 # Add sources
 target_sources(
-	DGE_lib_tests
+	dge_lib_tests
 	PRIVATE
 	FILE_SET CXX_MODULES FILES
 	"src/core/types.tests.ixx"
@@ -28,11 +28,12 @@ target_sources(
 
 # Link libraries
 target_link_libraries(
-	DGE_lib_tests
-	PRIVATE DGE_lib
+	dge_lib_tests
+	PRIVATE dge_lib
 	PRIVATE GTest::gtest_main
+	PRIVATE GTest::gmock_main
 )
 
 # GTest
 include(GoogleTest)
-gtest_discover_tests(DGE_lib_tests)
+gtest_discover_tests(dge_lib_tests)
