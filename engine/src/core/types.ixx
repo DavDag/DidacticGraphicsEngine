@@ -16,6 +16,16 @@ static_assert(sizeof(i16) == 2);
 static_assert(sizeof(i32) == 4);
 static_assert(sizeof(i64) == 8);
 
+static_assert(std::is_integral_v<i8>);
+static_assert(std::is_integral_v<i16>);
+static_assert(std::is_integral_v<i32>);
+static_assert(std::is_integral_v<i64>);
+
+static_assert(std::is_signed_v<i8>);
+static_assert(std::is_signed_v<i16>);
+static_assert(std::is_signed_v<i32>);
+static_assert(std::is_signed_v<i64>);
+
 export constexpr i8  I8_MIN  = std::numeric_limits<i8>::min();
 export constexpr i16 I16_MIN = std::numeric_limits<i16>::min();
 export constexpr i32 I32_MIN = std::numeric_limits<i32>::min();
@@ -39,6 +49,16 @@ static_assert(sizeof(u16) == 2);
 static_assert(sizeof(u32) == 4);
 static_assert(sizeof(u64) == 8);
 
+static_assert(std::is_integral_v<u8>);
+static_assert(std::is_integral_v<u16>);
+static_assert(std::is_integral_v<u32>);
+static_assert(std::is_integral_v<u64>);
+
+static_assert(std::is_unsigned_v<u8>);
+static_assert(std::is_unsigned_v<u16>);
+static_assert(std::is_unsigned_v<u32>);
+static_assert(std::is_unsigned_v<u64>);
+
 export constexpr u8  U8_MIN  = std::numeric_limits<u8>::min();
 export constexpr u16 U16_MIN = std::numeric_limits<u16>::min();
 export constexpr u32 U32_MIN = std::numeric_limits<u32>::min();
@@ -58,13 +78,28 @@ export using f64 = double;
 static_assert(sizeof(f32) == 4);
 static_assert(sizeof(f64) == 8);
 
+static_assert(std::is_floating_point_v<f32>);
+static_assert(std::is_floating_point_v<f64>);
+
+static_assert(std::is_signed_v<f32>);
+static_assert(std::is_signed_v<f64>);
+
 export constexpr f32 F32_MIN = std::numeric_limits<f32>::min();
 export constexpr f64 F64_MIN = std::numeric_limits<f64>::min();
 export constexpr f32 F32_MAX = std::numeric_limits<f32>::max();
 export constexpr f64 F64_MAX = std::numeric_limits<f64>::max();
 
-export constexpr f32 F32_EPSILON = 1e-5f;
-export constexpr f64 F64_EPSILON = 1e-10;
+export constexpr f32 F32_EPSILON = std::numeric_limits<f32>::epsilon();
+export constexpr f64 F64_EPSILON = std::numeric_limits<f64>::epsilon();
+
+export
+template<typename T>
+constexpr bool IsNan(T value) noexcept {
+	if constexpr (std::is_floating_point_v<T>) {
+		return std::isnan(value);
+	}
+	return false;
+}
 
 // 
 // Special types

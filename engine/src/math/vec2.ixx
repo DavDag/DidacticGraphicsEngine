@@ -107,6 +107,7 @@ T& Vec2<T>::operator[](int index) noexcept {
     case 0: return x;
     case 1: return y;
     }
+    return x; // unreachable (debug)
 }
 
 template<typename T>
@@ -116,6 +117,7 @@ const T& Vec2<T>::operator[](int index) const noexcept {
     case 0: return x;
     case 1: return y;
     }
+    return x; // unreachable (debug)
 }
 
 template<typename T>
@@ -128,24 +130,15 @@ bool Vec2<T>::operator!=(const Vec2& other) const noexcept {
     return !(*this == other);
 }
 
-// override for floating point types (since the equality operator is not precise)
-template<>
-bool Vec2<f32>::operator==(const Vec2& other) const noexcept {
-    return std::fabs(x - other.x) < F32_EPSILON && std::fabs(y - other.y) < F32_EPSILON;
-}
-
-template<>
-bool Vec2<f64>::operator==(const Vec2& other) const noexcept {
-	return std::abs(x - other.x) < F64_EPSILON && std::abs(y - other.y) < F64_EPSILON;
-}
-
 template<typename T>
 Vec2<T> Vec2<T>::operator+(const Vec2& other) const noexcept {
+	DebugAssert(!other.hasNaNs(), "Vec2 contains NaN");
     return Vec2(x + other.x, y + other.y);
 }
 
 template<typename T>
 Vec2<T>& Vec2<T>::operator+=(const Vec2& other) noexcept {
+    DebugAssert(!other.hasNaNs(), "Vec2 contains NaN");
     x += other.x;
     y += other.y;
     return *this;
@@ -153,11 +146,13 @@ Vec2<T>& Vec2<T>::operator+=(const Vec2& other) noexcept {
 
 template<typename T>
 Vec2<T> Vec2<T>::operator-(const Vec2& other) const noexcept {
+    DebugAssert(!other.hasNaNs(), "Vec2 contains NaN");
     return Vec2(x - other.x, y - other.y);
 }
 
 template<typename T>
 Vec2<T>& Vec2<T>::operator-=(const Vec2& other) noexcept {
+    DebugAssert(!other.hasNaNs(), "Vec2 contains NaN");
     x -= other.x;
     y -= other.y;
     return *this;
@@ -165,11 +160,13 @@ Vec2<T>& Vec2<T>::operator-=(const Vec2& other) noexcept {
 
 template<typename T>
 Vec2<T> Vec2<T>::operator*(const T& scalar) const noexcept {
+	DebugAssert(!IsNan(scalar), "scalar is NaN");
     return Vec2(x * scalar, y * scalar);
 }
 
 template<typename T>
 Vec2<T>& Vec2<T>::operator*=(const T& scalar) noexcept {
+	DebugAssert(!IsNan(scalar), "scalar is NaN");
     x *= scalar;
     y *= scalar;
     return *this;
@@ -177,45 +174,45 @@ Vec2<T>& Vec2<T>::operator*=(const T& scalar) noexcept {
 
 template<typename T>
 Vec2<T> Vec2<T>::operator/(const T& scalar) const noexcept {
-	DebugAssert(scalar != 0, "Division by zero");
-    f32 inv = 1 / scalar;
-    return Vec2(x * inv, y * inv);
-}
-
-// override for f64 (otherwise the precision is lost)
-template<>
-Vec2<f64> Vec2<f64>::operator/(const f64& scalar) const noexcept {
-	DebugAssert(scalar != 0, "Division by zero");
-	f64 inv = 1 / scalar;
-	return Vec2(x * inv, y * inv);
+    DebugAssert(!IsNan(scalar), "scalar is NaN");
+    DebugAssert(scalar != static_cast<T>(0), "Division by zero");
+    // override for f64 (otherwise the precision is lost)
+    if constexpr (std::is_same_v<T, f64>) {
+        f64 inv = 1 / scalar;
+        return Vec2(x * inv, y * inv);
+    }
+    else {
+        f32 inv = 1 / scalar;
+        return Vec2(x * inv, y * inv);
+    }
 }
 
 template<typename T>
 Vec2<T>& Vec2<T>::operator/=(const T& scalar) noexcept {
-    DebugAssert(scalar != 0, "Division by zero");
-    f32 inv = 1 / scalar;
-    x *= inv;
-    y *= inv;
+	DebugAssert(!IsNan(scalar), "scalar is NaN");
+    DebugAssert(scalar != static_cast<T>(0), "Division by zero");
+    // override for f64 (otherwise the precision is lost)
+    if constexpr (std::is_same_v<T, f64>) {
+        f64 inv = 1 / scalar;
+        x *= inv;
+        y *= inv;
+    }
+    else {
+        f32 inv = 1 / scalar;
+        x *= inv;
+        y *= inv;
+    }
     return *this;
-}
-
-// override for f64 (otherwise the precision is lost)
-template<>
-Vec2<f64>& Vec2<f64>::operator/=(const f64& scalar) noexcept {
-	DebugAssert(scalar != 0, "Division by zero");
-	f64 inv = 1 / scalar;
-	x *= inv;
-	y *= inv;
-	return *this;
 }
 
 template<typename T>
 bool Vec2<T>::hasNaNs() const noexcept {
-	return std::isnan(x) || std::isnan(y);
+    return IsNan(x) || IsNan(y);
 }
 
 template<typename T>
 T Vec2<T>::dot(const Vec2& other) const noexcept {
+	DebugAssert(!other.hasNaNs(), "Vec2 contains NaN");
 	return x * other.x + y * other.y;
 }
 
@@ -252,11 +249,19 @@ T Vec2<T>::maxComponent() const noexcept {
 
 template<typename T>
 Vec2<T> Vec2<T>::negated() const noexcept {
+    // override for unsigned types
+    if constexpr (std::is_unsigned_v<T>) {
+        return Vec2(x, y);
+    }
 	return Vec2(-x, -y);
 }
 
 template<typename T>
 Vec2<T>& Vec2<T>::negate() noexcept {
+	// override for unsigned types
+	if constexpr (std::is_unsigned_v<T>) {
+		return *this;
+	}
 	x = -x;
 	y = -y;
 	return *this;

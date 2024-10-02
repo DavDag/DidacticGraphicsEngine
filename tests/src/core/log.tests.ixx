@@ -25,7 +25,9 @@ TEST(EngineCoreLog, StandardLogShouldOutputToStdOut) {
 
 	// Check the output
 	EXPECT_THAT(bufferCErr.str(), ::testing::IsEmpty());
+#ifndef NDEBUG
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("Debug message"));
+#endif // !NDEBUG
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("Info message"));
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("Warning message"));
 }
@@ -72,7 +74,9 @@ TEST(EngineCoreLog, FileLogShouldOutputToFileOnly) {
 	// Check the output
 	EXPECT_THAT(bufferCOut.str(), ::testing::IsEmpty());
 	EXPECT_THAT(bufferCErr.str(), ::testing::IsEmpty());
+#ifndef NDEBUG
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("Debug message"));
+#endif // !NDEBUG
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("Info message"));
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("Warning message"));
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("Error message"));
@@ -91,6 +95,14 @@ TEST(EngineCoreLog, LogShouldHaveVariadicArguments) {
 	LogWarning("Warning message: <{}>", 3.14f);
 	LogError("Error message: <{}>", 'X');
 
+	// Check the output
+#ifndef NDEBUG
+	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<42>"));
+#endif // !NDEBUG
+	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<Hello, World!>"));
+	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<3.14>"));
+	EXPECT_THAT(bufferCErr.str(), ::testing::HasSubstr("<X>"));
+
 	// Logging (2 arguments)
 	LogDebug("Debug message: <{}, {}>", 42, "Hello, World!");
 	LogInfo("Info message: <{}, {}>", "Hello, World!", 3.14f);
@@ -102,11 +114,9 @@ TEST(EngineCoreLog, LogShouldHaveVariadicArguments) {
 	std::cerr.rdbuf(oldCErr);
 
 	// Check the output
-	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<42>"));
-	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<Hello, World!>"));
-	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<3.14>"));
-	EXPECT_THAT(bufferCErr.str(), ::testing::HasSubstr("<X>"));
+#ifndef NDEBUG
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<42, Hello, World!>"));
+#endif // !NDEBUG
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<Hello, World!, 3.14>"));
 	EXPECT_THAT(bufferCOut.str(), ::testing::HasSubstr("<3.14, X>"));
 	EXPECT_THAT(bufferCErr.str(), ::testing::HasSubstr("<X, 42>"));
@@ -128,6 +138,16 @@ TEST(EngineCoreLog, FileLogShouldHaveVariadicArguments) {
 	FLogWarning(fakeFileBuffer, "Warning message: <{}>", 3.14f);
 	FLogError(fakeFileBuffer, "Error message: <{}>", 'X');
 
+	// Check the output
+	EXPECT_THAT(bufferCOut.str(), ::testing::IsEmpty());
+	EXPECT_THAT(bufferCErr.str(), ::testing::IsEmpty());
+#ifndef NDEBUG
+	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<42>"));
+#endif // !NDEBUG
+	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<Hello, World!>"));
+	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<3.14>"));
+	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<X>"));
+
 	// Logging (2 arguments)
 	FLogDebug(fakeFileBuffer, "Debug message: <{}, {}>", 42, "Hello, World!");
 	FLogInfo(fakeFileBuffer, "Info message: <{}, {}>", "Hello, World!", 3.14f);
@@ -141,11 +161,9 @@ TEST(EngineCoreLog, FileLogShouldHaveVariadicArguments) {
 	// Check the output
 	EXPECT_THAT(bufferCOut.str(), ::testing::IsEmpty());
 	EXPECT_THAT(bufferCErr.str(), ::testing::IsEmpty());
-	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<42>"));
-	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<Hello, World!>"));
-	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<3.14>"));
-	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<X>"));
+#ifndef NDEBUG
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<42, Hello, World!>"));
+#endif // !NDEBUG
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<Hello, World!, 3.14>"));
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<3.14, X>"));
 	EXPECT_THAT(fakeFileBuffer.str(), ::testing::HasSubstr("<X, 42>"));

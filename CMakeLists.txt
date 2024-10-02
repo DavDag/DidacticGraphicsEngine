@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 3.29.0)
 # Project name and language
 project(DGE LANGUAGES CXX)
 
+# GTest
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/b514bdc898e2951020cbdca1304b75f5950d1f59.zip # 1.15.2
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
+FetchContent_MakeAvailable(googletest)
+
 # Allow only MSVC compiler
 if(NOT MSVC)
 	message(FATAL_ERROR "Only MSVC compiler is supported")

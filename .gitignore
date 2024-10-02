@@ -1,7 +1,8 @@
 .vs/
 x64/
 out/
-ext/std/
 **.pdb
 **.filters
 **.user
+/engine/ext/std/std.ixx
+/engine/ext/std/std.compat.ixx
