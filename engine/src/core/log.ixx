@@ -31,15 +31,18 @@ import engine.core.types;
 // Internal implementation
 // 
 
-template<bool C, int L> requires(L >= 0 && L < 4)
-constexpr const char* LogPrefix() noexcept {
-    if constexpr (C) {
+template <bool C, int L> requires(L >= 0 && L < 4)
+constexpr const char* LogPrefix() noexcept
+{
+    if constexpr (C)
+    {
         if constexpr (L == 0) return "\033[1;30m[d] ";
         else if constexpr (L == 1) return "\033[1;37m[i] ";
         else if constexpr (L == 2) return "\033[1;33m[w] ";
         else if constexpr (L == 3) return "\033[1;31m[e] ";
     }
-    else {
+    else
+    {
         if constexpr (L == 0) return "[d] ";
         else if constexpr (L == 1) return "[i] ";
         else if constexpr (L == 2) return "[w] ";
@@ -48,26 +51,30 @@ constexpr const char* LogPrefix() noexcept {
     return "cannot happen";
 }
 
-template<bool C, int L> requires(L >= 0 && L < 4)
-constexpr const char* LogSuffix() noexcept {
-	if constexpr (C) {
-		return "\033[0m";
-	}
-	else {
-		return "";
-	}
+template <bool C, int L> requires(L >= 0 && L < 4)
+constexpr const char* LogSuffix() noexcept
+{
+    if constexpr (C)
+    {
+        return "\033[0m";
+    }
+    else
+    {
+        return "";
+    }
 }
 
-template<bool C, int L, typename... Args> requires(L >= 0 && L < 4)
+template <bool C, int L, typename... Args> requires(L >= 0 && L < 4)
 constexpr void Log(
     std::ostream& out,
     const std::source_location& src,
     const std::string& message,
     Args&&... args
-) {
+)
+{
     constexpr const char* prefix = LogPrefix<C, L>();
-	constexpr const char* suffix = LogSuffix<C, L>();
-	const std::string file_name = src.file_name();
+    constexpr const char* suffix = LogSuffix<C, L>();
+    const std::string file_name = src.file_name();
     out
         << prefix
         << std::format(
@@ -84,19 +91,21 @@ constexpr void Log(
         ;
 }
 
-// 
+//
 // Structs to enable logging with a simple syntax
-// 
+//
 
 export
-template<typename... Args>
-struct FLogDebug {
+template <typename... Args>
+struct FLogDebug
+{
     FLogDebug(
         std::ostream& out,
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
-    ) {
+    )
+    {
 #ifndef NDEBUG
         Log<false, 0>(out, src, message, args...);
 #endif // NDEBUG
@@ -104,13 +113,15 @@ struct FLogDebug {
 };
 
 export
-template<typename... Args>
-struct LogDebug {
+template <typename... Args>
+struct LogDebug
+{
     explicit LogDebug(
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
-    ) {
+    )
+    {
 #ifndef NDEBUG
         Log<true, 0>(std::cout, src, message, args...);
 #endif // NDEBUG
@@ -118,78 +129,90 @@ struct LogDebug {
 };
 
 export
-template<typename... Args>
-struct FLogInfo {
+template <typename... Args>
+struct FLogInfo
+{
     FLogInfo(
         std::ostream& out,
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
-    ) {
+    )
+    {
         Log<false, 1>(out, src, message, args...);
     }
 };
 
 export
-template<typename... Args>
-struct LogInfo {
+template <typename... Args>
+struct LogInfo
+{
     explicit LogInfo(
-		const std::string& message,
-		Args&&... args,
-		const std::source_location& src = std::source_location::current()
-	) {
+        const std::string& message,
+        Args&&... args,
+        const std::source_location& src = std::source_location::current()
+    )
+    {
         Log<true, 1>(std::cout, src, message, args...);
-	}
+    }
 };
 
 export
-template<typename... Args>
-struct FLogWarning {
+template <typename... Args>
+struct FLogWarning
+{
     FLogWarning(
         std::ostream& out,
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
-    ) {
+    )
+    {
         Log<false, 2>(out, src, message, args...);
     }
 };
 
 export
-template<typename... Args>
-struct LogWarning {
+template <typename... Args>
+struct LogWarning
+{
     explicit LogWarning(
-		const std::string& message,
-		Args&&... args,
-		const std::source_location& src = std::source_location::current()
-	) {
+        const std::string& message,
+        Args&&... args,
+        const std::source_location& src = std::source_location::current()
+    )
+    {
         Log<true, 2>(std::cout, src, message, args...);
-	}
+    }
 };
 
 export
-template<typename... Args>
-struct FLogError {
+template <typename... Args>
+struct FLogError
+{
     FLogError(
         std::ostream& out,
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
-    ) {
+    )
+    {
         Log<false, 3>(out, src, message, args...);
     }
 };
 
 export
-template<typename... Args>
-struct LogError {
+template <typename... Args>
+struct LogError
+{
     explicit LogError(
-		const std::string& message,
-		Args&&... args,
-		const std::source_location& src = std::source_location::current()
-	) {
+        const std::string& message,
+        Args&&... args,
+        const std::source_location& src = std::source_location::current()
+    )
+    {
         Log<true, 3>(std::cerr, src, message, args...);
-	}
+    }
 };
 
 // Deduction guide:
@@ -197,33 +220,33 @@ struct LogError {
 // in this case, the std::source_location is deduced from the last argument
 
 export
-template<typename... Args>
-FLogDebug(std::ostream& out, const std::string& s, Args&&...) -> FLogDebug<Args... >;
+template <typename... Args>
+FLogDebug(std::ostream& out, const std::string& s, Args&&...) -> FLogDebug<Args...>;
 
 export
-template<typename... Args>
-LogDebug(const std::string& s, Args&&...) -> LogDebug<Args... >;
+template <typename... Args>
+LogDebug(const std::string& s, Args&&...) -> LogDebug<Args...>;
 
 export
-template<typename... Args>
-FLogInfo(std::ostream& out, const std::string& s, Args&&...) -> FLogInfo<Args... >;
+template <typename... Args>
+FLogInfo(std::ostream& out, const std::string& s, Args&&...) -> FLogInfo<Args...>;
 
 export
-template<typename... Args>
-LogInfo(const std::string& s, Args&&...) -> LogInfo<Args... >;
+template <typename... Args>
+LogInfo(const std::string& s, Args&&...) -> LogInfo<Args...>;
 
 export
-template<typename... Args>
-FLogWarning(std::ostream& out, const std::string& s, Args&&...) -> FLogWarning<Args... >;
+template <typename... Args>
+FLogWarning(std::ostream& out, const std::string& s, Args&&...) -> FLogWarning<Args...>;
 
 export
-template<typename... Args>
-LogWarning(const std::string& s, Args&&...) -> LogWarning<Args... >;
+template <typename... Args>
+LogWarning(const std::string& s, Args&&...) -> LogWarning<Args...>;
 
 export
-template<typename... Args>
-FLogError(std::ostream& out, const std::string& s, Args&&...) -> FLogError<Args... >;
+template <typename... Args>
+FLogError(std::ostream& out, const std::string& s, Args&&...) -> FLogError<Args...>;
 
 export
-template<typename... Args>
-LogError(const std::string& s, Args&&...) -> LogError<Args... >;
+template <typename... Args>
+LogError(const std::string& s, Args&&...) -> LogError<Args...>;
