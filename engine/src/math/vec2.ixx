@@ -118,6 +118,7 @@ T& Vec2<T>::operator[](int index) noexcept
     {
     case 0: return x;
     case 1: return y;
+    default: break;
     }
     return x; // unreachable (debug)
 }
@@ -130,6 +131,7 @@ const T& Vec2<T>::operator[](int index) const noexcept
     {
     case 0: return x;
     case 1: return y;
+    default: break;
     }
     return x; // unreachable (debug)
 }

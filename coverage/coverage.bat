@@ -1,0 +1,1 @@
+gcovr -r ../cmake-build-debug-coverage --gcov-executable E:/MSYS2/clang64/bin/gcov.exe --filter "E:/Extra/DidacticGraphicsEngine/engine/src" --html --html-details --html-self-contained --html-theme github.dark-green -o ../coverage/coverage.html  --sonarqube coverage.xml
