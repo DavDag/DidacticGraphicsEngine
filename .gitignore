@@ -1,8 +1,8 @@
 .vs/
+.idea/
 x64/
 out/
+cmake-build-**/
 **.pdb
 **.filters
 **.user
-/engine/ext/std/std.ixx
-/engine/ext/std/std.compat.ixx

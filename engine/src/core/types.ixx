@@ -1,6 +1,13 @@
+module;
+#include <cstdint>
+#include <cmath>
+#include <limits>
+#include <type_traits>
+#include <string>
+#include <iostream>
+#include <source_location>
+#include <format>
 export module engine.core.types;
-
-export import std;
 
 // 
 // Integer types
@@ -110,8 +117,3 @@ export using size = std::size_t;
 
 static_assert(sizeof(byte) == 1);
 static_assert(sizeof(size) == 8);
-
-export constexpr byte BYTE_MIN = U8_MIN;
-export constexpr size SIZE_MIN = U64_MIN;
-export constexpr byte BYTE_MAX = U8_MAX;
-export constexpr size SIZE_MAX = U64_MAX;

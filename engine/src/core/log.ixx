@@ -1,3 +1,12 @@
+module;
+#include <cstdint>
+#include <cmath>
+#include <limits>
+#include <type_traits>
+#include <string>
+#include <iostream>
+#include <source_location>
+#include <format>
 export module engine.core.log;
 
 import engine.core.types;
@@ -27,7 +36,7 @@ import engine.core.types;
 // 
 
 template<bool C, int L> requires(L >= 0 && L < 4)
-constexpr inline const char* __LogPrefix() noexcept {
+constexpr const char* LogPrefix() noexcept {
     if constexpr (C) {
         if constexpr (L == 0) return "\033[1;30m[d] ";
         else if constexpr (L == 1) return "\033[1;37m[i] ";
@@ -44,7 +53,7 @@ constexpr inline const char* __LogPrefix() noexcept {
 }
 
 template<bool C, int L> requires(L >= 0 && L < 4)
-constexpr inline const char* __LogSuffix() noexcept {
+constexpr const char* LogSuffix() noexcept {
 	if constexpr (C) {
 		return "\033[0m";
 	}
@@ -54,14 +63,14 @@ constexpr inline const char* __LogSuffix() noexcept {
 }
 
 template<bool C, int L, typename... Args> requires(L >= 0 && L < 4)
-constexpr inline void __Log(
+constexpr void Log(
     std::ostream& out,
     const std::source_location& src,
     const std::string& message,
     Args&&... args
 ) {
-    constexpr const char* prefix = __LogPrefix<C, L>();
-	constexpr const char* suffix = __LogSuffix<C, L>();
+    constexpr const char* prefix = LogPrefix<C, L>();
+	constexpr const char* suffix = LogSuffix<C, L>();
 	const std::string file_name = src.file_name();
     out
         << prefix
@@ -93,7 +102,7 @@ struct FLogDebug {
         const std::source_location& src = std::source_location::current()
     ) {
 #ifndef NDEBUG
-        __Log<false, 0>(out, src, message, args...);
+        Log<false, 0>(out, src, message, args...);
 #endif // NDEBUG
     }
 };
@@ -101,13 +110,13 @@ struct FLogDebug {
 export
 template<typename... Args>
 struct LogDebug {
-    LogDebug(
+    explicit LogDebug(
         const std::string& message,
         Args&&... args,
         const std::source_location& src = std::source_location::current()
     ) {
 #ifndef NDEBUG
-        __Log<true, 0>(std::cout, src, message, args...);
+        Log<true, 0>(std::cout, src, message, args...);
 #endif // NDEBUG
     }
 };
@@ -121,19 +130,19 @@ struct FLogInfo {
         Args&&... args,
         const std::source_location& src = std::source_location::current()
     ) {
-        __Log<false, 1>(out, src, message, args...);
+        Log<false, 1>(out, src, message, args...);
     }
 };
 
 export
 template<typename... Args>
 struct LogInfo {
-	LogInfo(
+    explicit LogInfo(
 		const std::string& message,
 		Args&&... args,
 		const std::source_location& src = std::source_location::current()
 	) {
-        __Log<true, 1>(std::cout, src, message, args...);
+        Log<true, 1>(std::cout, src, message, args...);
 	}
 };
 
@@ -146,19 +155,19 @@ struct FLogWarning {
         Args&&... args,
         const std::source_location& src = std::source_location::current()
     ) {
-        __Log<false, 2>(out, src, message, args...);
+        Log<false, 2>(out, src, message, args...);
     }
 };
 
 export
 template<typename... Args>
 struct LogWarning {
-	LogWarning(
+    explicit LogWarning(
 		const std::string& message,
 		Args&&... args,
 		const std::source_location& src = std::source_location::current()
 	) {
-        __Log<true, 2>(std::cout, src, message, args...);
+        Log<true, 2>(std::cout, src, message, args...);
 	}
 };
 
@@ -171,19 +180,19 @@ struct FLogError {
         Args&&... args,
         const std::source_location& src = std::source_location::current()
     ) {
-        __Log<false, 3>(out, src, message, args...);
+        Log<false, 3>(out, src, message, args...);
     }
 };
 
 export
 template<typename... Args>
 struct LogError {
-	LogError(
+    explicit LogError(
 		const std::string& message,
 		Args&&... args,
 		const std::source_location& src = std::source_location::current()
 	) {
-        __Log<true, 3>(std::cerr, src, message, args...);
+        Log<true, 3>(std::cerr, src, message, args...);
 	}
 };
 
@@ -191,26 +200,34 @@ struct LogError {
 // Makes it possible to use the class without specifying the template arguments
 // in this case, the std::source_location is deduced from the last argument
 
+export
 template<typename... Args>
 FLogDebug(std::ostream& out, const std::string& s, Args&&...) -> FLogDebug<Args... >;
 
+export
 template<typename... Args>
 LogDebug(const std::string& s, Args&&...) -> LogDebug<Args... >;
 
+export
 template<typename... Args>
 FLogInfo(std::ostream& out, const std::string& s, Args&&...) -> FLogInfo<Args... >;
 
+export
 template<typename... Args>
 LogInfo(const std::string& s, Args&&...) -> LogInfo<Args... >;
 
+export
 template<typename... Args>
 FLogWarning(std::ostream& out, const std::string& s, Args&&...) -> FLogWarning<Args... >;
 
+export
 template<typename... Args>
 LogWarning(const std::string& s, Args&&...) -> LogWarning<Args... >;
 
+export
 template<typename... Args>
 FLogError(std::ostream& out, const std::string& s, Args&&...) -> FLogError<Args... >;
 
+export
 template<typename... Args>
 LogError(const std::string& s, Args&&...) -> LogError<Args... >;

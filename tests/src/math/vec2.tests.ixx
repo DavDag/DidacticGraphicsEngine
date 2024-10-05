@@ -191,4 +191,10 @@ namespace engine::math::vec2 {
 		}
 	}
 
+	/*
+	TYPED_TEST(EngineMathVec2GenericTest, AlgebraOperations) {
+		using ValueType = decltype(TypeParam::x);
+	}
+	*/
+
 } // namespace engine::math::vec2

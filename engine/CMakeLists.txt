@@ -1,18 +1,6 @@
 # Create a library
 add_library(dge_lib)
 
-# Copy STD Files in a local folder
-set(StdFiles "${VCToolsInstallDir}/modules/std.ixx" "${VCToolsInstallDir}/modules/std.compat.ixx")
-file(COPY ${StdFiles} DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/ext/std")
-
-target_sources(
-	dge_lib
-	PUBLIC
-	FILE_SET CXX_MODULES FILES
-	"ext/std/std.ixx"
-	"ext/std/std.compat.ixx"
-)
-
 # Add sources
 target_sources(
 	dge_lib
