@@ -26,17 +26,12 @@ jobs:
       - name: Install clang (18>=) & ninja (1.11>=)
         run: |
           sudo apt update
-          echo Update ninja =======================================================================
-          echo ninja version before
-          ninja --version
-          # wget https://github.com/ninja-build/ninja/releases/download/v1.10.0/ninja-linux.zip
           wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
           sudo unzip ninja-linux.zip -d /usr/local/bin/
           sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
-          echo ninja version after
           ninja --version
-          echo Update Clang =======================================================================
           sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+          clang++-18 --version
         shell: bash
 
       - name: Check cmake
