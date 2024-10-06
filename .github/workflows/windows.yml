@@ -27,7 +27,7 @@ jobs:
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target dge_lib_tests --config Debug
+        run: cmake --build . --target ALL_BUILD --config Debug
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
