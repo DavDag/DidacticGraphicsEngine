@@ -20,6 +20,7 @@ FetchContent_Declare(
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
 FetchContent_MakeAvailable(googletest)
+enable_testing()
 
 # Compiler version
 message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")

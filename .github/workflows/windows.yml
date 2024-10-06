@@ -27,4 +27,4 @@ jobs:
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
-        run: ctest -V
+        run: ctest --extra-verbose
