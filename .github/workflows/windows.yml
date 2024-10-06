@@ -1,0 +1,30 @@
+name: windows
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check cmake
+        run: cmake --version
+
+      - name: Configure CMake
+        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config Release
+
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: ctest -V
