@@ -19,6 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip build-essential
+          sudo apt-get install -y cmake ninja-build
+
       - name: Install CMake
         run: |
           cmake_version=$(curl --silent "https://api.github.com/repos/Kitware/CMake/releases/latest" | sed -n 's/.*tag_name":\s"\(.*\)".*/\1/p' | head -2 | cut -c 2-)
@@ -41,15 +47,20 @@ jobs:
           sudo ./llvm.sh 18
           sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 1 --force
           sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 1 --force
-          sudo update-alternatives --install /usr/bin/llvm-cov gcov /usr/bin/llvm-cov-18 1 --force
+          sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-18 1 --force
 
       - name: Check versions
         run: |
+          echo "CMAKE version:"
           cmake --version
+          echo "Ninja version:"
           ninja --version
+          echo "Clang version:"
           clang --version
+          echo "Clang++ version:"
           clang++ --version
-          gcov --version
+          echo "GCOV (llvm-cov) version:"
+          llvm-cov --version
 
       - name: Configure CMake
         run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release
