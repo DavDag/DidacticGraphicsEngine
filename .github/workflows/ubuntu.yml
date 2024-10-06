@@ -23,9 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install clang
+      - name: Install clang & ninja
         run: |
           sudo apt update
+          sudo apt install ninja-build
           sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         shell: bash
 
