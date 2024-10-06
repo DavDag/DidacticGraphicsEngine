@@ -74,7 +74,7 @@ jobs:
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config Release -Dstdlib=libc++
+        run: cmake --build . --config Release
 
       - name: Test
         working-directory: ${{runner.workspace}}/build

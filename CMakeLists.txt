@@ -54,6 +54,12 @@ if (DGE_COVERAGE_REPORT)
     endif ()
 endif ()
 
+# Test
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    add_compile_options(-stdlib=libc++)
+    add_link_options(-stdlib=libc++)
+endif ()
+
 # Projects
 add_subdirectory(engine)
 add_subdirectory(tests)
