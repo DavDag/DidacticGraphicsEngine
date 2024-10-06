@@ -1,6 +1,7 @@
 module;
 #include <string>
 #include <iostream>
+#include <format>
 #include <source_location>
 export module engine.core.assert;
 

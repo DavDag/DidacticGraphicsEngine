@@ -11,6 +11,7 @@ on:
 env:
   CC: clang-18
   CXX: clang++-18
+  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps
 
 jobs:
   build:
@@ -33,6 +34,7 @@ jobs:
           sudo mkdir /opt/cmake
           sudo ./cmake-$cmake_version-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
           sudo update-alternatives --install /usr/bin/cmake cmake /opt/cmake/bin/cmake 1 --force
+          sudo update-alternatives --install /usr/bin/ctest ctest /opt/cmake/bin/ctest 1 --force
 
       - name: Install Ninja
         run: |
@@ -46,6 +48,8 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 18
           sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-18 1 --force
+          sudo apt install clang-tools-18
+          sudo update-alternatives --install /usr/bin/clang-scan-deps clang-scan-deps /usr/bin/clang-scan-deps-18 1 --force
 
       - name: Check versions
         run: |
