@@ -18,13 +18,13 @@ jobs:
       - name: Check cmake
         run: cmake --version
 
-      - name: configure
-        run: cmake . -Bbuild
+      - name: Configure CMake
+        run: cmake -S $GITHUB_WORKSPACE -B ${{runner.workspace}}/build
 
-      - name: build
-        run: cmake --build build --config Debug --target dge_lib_tests -j4
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --target dge_lib_tests --config Debug
 
-      - name: test
-        run: |
-          cd build
-          ctest --build-config Debug
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: GTEST_OUTPUT=xml:test-results/ GTEST_COLOR=1 ctest -V
