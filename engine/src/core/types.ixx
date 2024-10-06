@@ -103,7 +103,10 @@ constexpr bool IsNan(T value) noexcept
     {
         return std::isnan(value);
     }
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 // 
