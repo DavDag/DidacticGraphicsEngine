@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+env:
+  CC: clang
+  CXX: clang++
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,6 +22,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install clang
+      - run: |
+          sudo apt update
+          sudo apt install -y clang
+        shell: bash
 
       - name: Check cmake
         run: cmake --version
