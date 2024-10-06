@@ -16,7 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(FetchContent)
 FetchContent_Declare(
         googletest
-        URL https://github.com/google/googletest/archive/b514bdc898e2951020cbdca1304b75f5950d1f59.zip # 1.15.2
+        URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip # 1.14.0
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
 FetchContent_MakeAvailable(googletest)

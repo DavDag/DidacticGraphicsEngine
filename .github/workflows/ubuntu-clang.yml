@@ -11,7 +11,7 @@ on:
 env:
   CC: clang-18
   CXX: clang++-18
-  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps
+  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps-18
 
 jobs:
   build:
@@ -49,20 +49,24 @@ jobs:
           sudo ./llvm.sh 18
           sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-18 1 --force
           sudo apt install clang-tools-18
-          sudo update-alternatives --install /usr/bin/clang-scan-deps clang-scan-deps /usr/bin/clang-scan-deps-18 1 --force
+          sudo update-alternatives --install /usr/bin/clang-scan-deps-18 clang-scan-deps-18 /usr/bin/clang-scan-deps-18 1 --force
 
       - name: Check versions
         run: |
-          echo "CMAKE version:"
+          echo "======================================================="
+          echo "================ CMAKE version ========================"
           cmake --version
-          echo "Ninja version:"
+          echo "================ Ninja version ========================"
           ninja --version
-          echo "Clang version:"
+          echo "================ Clang version ========================"
           clang-18 --version
-          echo "Clang++ version:"
+          echo "================ Clang++ version ======================"
           clang++-18 --version
-          echo "GCOV (llvm-cov) version:"
+          echo "================ Clang scan-deps version =============="
+          clang-scan-deps-18 --version
+          echo "================ GCOV (llvm-cov) version =============="
           llvm-cov --version
+          echo "======================================================="
 
       - name: Configure CMake
         run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release -G Ninja
