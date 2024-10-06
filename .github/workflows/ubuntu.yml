@@ -11,6 +11,7 @@ on:
 env:
   CC: clang-18
   CXX: clang++-18
+  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps-18
 
 jobs:
   build:
