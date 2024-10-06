@@ -28,5 +28,6 @@ target_link_libraries(
 )
 
 # GTest
+enable_testing()
 include(GoogleTest)
 gtest_discover_tests(dge_lib_tests)
