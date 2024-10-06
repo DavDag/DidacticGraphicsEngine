@@ -33,11 +33,11 @@ jobs:
         run: cmake --version
 
       - name: Configure CMake
-        run: cmake -S . -B ${{runner.workspace}}/build
+        run: cmake -G Ninja -S . -B ${{runner.workspace}}/build
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target ALL_BUILD --config Release
+        run: cmake -G Ninja --build . --target ALL_BUILD --config Release
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
