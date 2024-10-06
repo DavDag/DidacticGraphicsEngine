@@ -9,8 +9,8 @@ on:
       - main
 
 env:
-  CC: clang
-  CXX: clang++
+  CC: clang-18
+  CXX: clang++-18
 
 jobs:
   build:
