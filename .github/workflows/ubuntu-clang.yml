@@ -1,0 +1,63 @@
+name: ubuntu-clang
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CC: clang
+  CXX: clang++
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake
+        run: |
+          cmake_version=$(curl --silent "https://api.github.com/repos/Kitware/CMake/releases/latest" | sed -n 's/.*tag_name":\s"\(.*\)".*/\1/p' | head -2 | cut -c 2-)
+          wget https://github.com/Kitware/CMake/releases/download/v$cmake_version/cmake-$cmake_version-Linux-x86_64.sh
+          chmod +x cmake-$cmake_version-Linux-x86_64.sh
+          sudo mkdir /opt/cmake
+          sudo ./cmake-$cmake_version-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
+          sudo update-alternatives --install /usr/bin/cmake cmake /opt/cmake/bin/cmake 1 --force
+
+      - name: Install Ninja
+        run: |
+          wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
+          sudo unzip ninja-linux.zip -d /usr/local/bin/
+          sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
+
+      - name: Install Clang
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 18
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 1 --force
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 1 --force
+          sudo update-alternatives --install /usr/bin/llvm-cov gcov /usr/bin/llvm-cov-18 1 --force
+
+      - name: Check versions
+        run: |
+          cmake --version
+          ninja --version
+          clang --version
+          clang++ --version
+          gcov --version
+
+      - name: Configure CMake
+        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config Release
+
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: ctest --extra-verbose

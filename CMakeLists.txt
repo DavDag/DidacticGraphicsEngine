@@ -25,11 +25,6 @@ enable_testing()
 # Compiler version
 message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
-# Pass only MSVC and Clang as supported compilers
-if (NOT MSVC AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    message(FATAL_ERROR "Unsupported compiler")
-endif ()
-
 # Add flags depending on build configuration
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     message(STATUS "Debug build")

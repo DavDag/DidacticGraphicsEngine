@@ -293,7 +293,10 @@ Vec2<T> Vec2<T>::negated() const noexcept
     {
         return Vec2(x, y);
     }
-    return Vec2(-x, -y);
+    else
+    {
+        return Vec2(-x, -y);
+    }
 }
 
 template <typename T>
@@ -304,9 +307,12 @@ Vec2<T>& Vec2<T>::negate() noexcept
     {
         return *this;
     }
-    x = -x;
-    y = -y;
-    return *this;
+    else
+    {
+        x = -x;
+        y = -y;
+        return *this;
+    }
 }
 
 //
