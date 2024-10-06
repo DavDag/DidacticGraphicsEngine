@@ -49,7 +49,7 @@ jobs:
           sudo ./llvm.sh 18
           sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-18 1 --force
           sudo apt install clang-tools-18
-          sudo update-alternatives --install /usr/bin/clang-scan-deps-18 clang-scan-deps-18 /usr/bin/clang-scan-deps-18 1 --force
+          # sudo update-alternatives --install /usr/bin/clang-scan-deps-18 clang-scan-deps-18 /usr/bin/clang-scan-deps-18 1 --force
 
       - name: Check versions
         run: |
