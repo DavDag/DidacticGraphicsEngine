@@ -23,10 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install clang & ninja
+      - name: Install clang (18>=) & ninja (1.11>=)
         run: |
           sudo apt update
-          sudo apt install ninja-build
+          sudo curl -L https://github.com/ninja-build/ninja/releases/download/v1.11.0/ninja-linux.zip -o ninja.zip
+          sudo unzip ninja.zip -d ninja
+          sudo export PATH=$PWD/ninja:$PATH
           sudo bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
         shell: bash
 
