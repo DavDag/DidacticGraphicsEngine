@@ -24,8 +24,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y wget unzip build-essential
-          sudo apt install -y cmake ninja-build
-          # sudo apt install -y libc++-19-dev
+          sudo apt install -y cmake ninja-build gcc-13 g++-13
 
       - name: Install CMake
         run: |
@@ -59,6 +58,8 @@ jobs:
           cmake --version
           echo "================ Ninja version ========================"
           ninja --version
+          echo "================ GCC version =========================="
+          gcc --version
           echo "================ Clang version ========================"
           clang-19 --version
           echo "================ Clang++ version ======================"
