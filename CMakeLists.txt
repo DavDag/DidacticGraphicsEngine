@@ -74,6 +74,11 @@ if (DGE_COVERAGE_REPORT)
     endif ()
 endif ()
 
+# When building with Clang, use libc++
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++")
+endif ()
+
 # Projects
 add_subdirectory(engine)
 add_subdirectory(tests)

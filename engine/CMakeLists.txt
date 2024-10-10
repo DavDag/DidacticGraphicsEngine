@@ -1,12 +1,6 @@
 # Create a library
 add_library(dge_lib)
 
-# When building with Clang, use libc++
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-	add_compile_options(-stdlib=libc++)
-	add_link_options(-stdlib=libc++)
-endif ()
-
 # Add sources
 target_sources(
 	dge_lib
