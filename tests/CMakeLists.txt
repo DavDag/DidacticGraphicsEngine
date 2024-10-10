@@ -21,7 +21,6 @@ target_sources(
 target_link_libraries(
         dge_lib_tests
         PRIVATE dge_lib
-        PRIVATE GTest::gtest
         PRIVATE GTest::gtest_main
         PRIVATE GTest::gmock_main
 )
