@@ -42,11 +42,11 @@ jobs:
           echo "================ GCC version =========================="
           gcc --version
           echo "================ Clang version ========================"
-          clang-19 --version
+          clang-18 --version
           echo "================ Clang++ version ======================"
-          clang++-19 --version
+          clang++-18 --version
           echo "================ Clang scan-deps version =============="
-          clang-scan-deps-19 --version
+          clang-scan-deps-18 --version
           echo "================ GCOV (llvm-cov) version =============="
           llvm-cov --version
           echo "======================================================="
