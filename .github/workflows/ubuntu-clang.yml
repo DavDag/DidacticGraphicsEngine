@@ -9,13 +9,13 @@ on:
       - main
 
 env:
-  CC: clang-19
-  CXX: clang++-19
-  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps-19
+  CC: clang-18
+  CXX: clang++-18
+  CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: clang-scan-deps-18
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04.1
 
     steps:
       - uses: actions/checkout@v4
@@ -23,39 +23,14 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y wget unzip build-essential
           sudo apt install -y cmake ninja-build
-      
-      - name: Install GCC
-        run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa
-          sudo apt update
-          sudo apt install -y gcc-13 g++-13
-
-      - name: Install CMake
-        run: |
-          cmake_version=$(curl --silent "https://api.github.com/repos/Kitware/CMake/releases/latest" | sed -n 's/.*tag_name":\s"\(.*\)".*/\1/p' | head -2 | cut -c 2-)
-          wget https://github.com/Kitware/CMake/releases/download/v$cmake_version/cmake-$cmake_version-Linux-x86_64.sh
-          chmod +x cmake-$cmake_version-Linux-x86_64.sh
-          sudo mkdir /opt/cmake
-          sudo ./cmake-$cmake_version-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
-          sudo update-alternatives --install /usr/bin/cmake cmake /opt/cmake/bin/cmake 1 --force
-          sudo update-alternatives --install /usr/bin/ctest ctest /opt/cmake/bin/ctest 1 --force
-
-      - name: Install Ninja
-        run: |
-          wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
-          sudo unzip ninja-linux.zip -d /usr/local/bin/
-          sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
 
       - name: Install Clang
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 19
-          sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov /usr/bin/llvm-cov-19 1 --force
-          sudo apt install clang-tools-19
-          # sudo update-alternatives --install /usr/bin/clang-scan-deps-19 clang-scan-deps-19 /usr/bin/clang-scan-deps-19 1 --force
+          sudo ./llvm.sh 18
+          sudo apt install clang-tools-18
 
       - name: Check versions
         run: |

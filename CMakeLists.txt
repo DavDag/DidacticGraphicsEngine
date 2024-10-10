@@ -1,5 +1,5 @@
 # Minimum CMake version
-cmake_minimum_required(VERSION 3.29.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.28.0 FATAL_ERROR)
 
 # Project name and language
 project(DGE LANGUAGES CXX)
@@ -11,7 +11,27 @@ option(DGE_COVERAGE_REPORT "Enable coverage report" OFF)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(LIBCXX_ENABLE_INCOMPLETE_FEATURES ON)
+
+# GCC >= 14
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
+        message(FATAL_ERROR "GCC version must be at least 14.0")
+    endif ()
+endif ()
+
+# Clang >= 16
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16.0)
+        message(FATAL_ERROR "Clang version must be at least 16.0")
+    endif ()
+endif ()
+
+# MSVC >= 19.30
+if (MSVC)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.30)
+        message(FATAL_ERROR "MSVC version must be at least 19.30")
+    endif ()
+endif ()
 
 # GTest
 include(FetchContent)
@@ -52,12 +72,6 @@ if (DGE_COVERAGE_REPORT)
         add_compile_options(--coverage)
         add_link_options(--coverage)
     endif ()
-endif ()
-
-# Test
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options(-stdlib=libc++ -fexperimental-library)
-    add_link_options(-stdlib=libc++ -fexperimental-library)
 endif ()
 
 # Projects
