@@ -10,7 +10,6 @@ option(DGE_COVERAGE_REPORT "Enable coverage report" OFF)
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 # GCC >= 14
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -74,13 +73,9 @@ if (DGE_COVERAGE_REPORT)
     endif ()
 endif ()
 
+add_compile_options(-std=c++23)
+
 # Projects
 add_subdirectory(engine)
 add_subdirectory(tests)
 add_subdirectory(samples)
-
-# When building with Clang, use libc++
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
-endif ()
