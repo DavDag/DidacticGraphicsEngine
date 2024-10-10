@@ -23,7 +23,14 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
+          sudo apt-get update
           sudo apt install -y cmake ninja-build
+
+      - name: Install Ninja
+        run: |
+          wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
+          sudo unzip ninja-linux.zip -d /usr/local/bin/
+          sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
 
       - name: Install Clang
         run: |
