@@ -25,6 +25,7 @@ jobs:
           sudo apt update
           sudo apt-get update
           sudo apt install -y cmake ninja-build
+          pipx install gcovr
 
       - name: Install Ninja
         run: |
@@ -57,33 +58,34 @@ jobs:
           echo "================ Clang scan-deps version =============="
           clang-scan-deps-18 --version
           echo "======================================================="
+          gcovr --version
+          echo "======================================================="
 
       - name: Configure CMake
-        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Debug -G Ninja -DDGE_COVERAGE_REPORT:BOOL=ON
+        run: cmake -S . -B ${{runner.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DDGE_COVERAGE_REPORT:BOOL=ON
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config Debug
+        run: cmake --build . --config Debug --target all -- -j $(nproc)
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
-        run: ctest --extra-verbose
+        run: ctest --extra-verbose --target all -- -j $(nproc)
 
       - name: Generate coverage
         working-directory: ${{runner.workspace}}/build
         run: |
-          pipx install gcovr
           mkdir -p coverage/html
           mkdir -p coverage/xml
           mkdir -p coverage/txt
           mkdir -p coverage/json
-          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter /engine/src --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/xml/cobertura.xml --txt ./coverage/txt/coverage.txt --json ./coverage/json/coverage.json
+          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter '\.\./engine/src' --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/xml/cobertura.xml --txt ./coverage/txt/coverage.txt --json ./coverage/json/coverage.json
           echo "======================================================="
           cat ./coverage/txt/coverage.txt
           echo "======================================================="
 
       - name: Upload results to Codecov
-        if: always()
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v4
         with:
           token: ${{secrets.CODECOV_TOKEN}}
