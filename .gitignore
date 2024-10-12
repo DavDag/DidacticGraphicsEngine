@@ -3,6 +3,8 @@
 x64/
 out/
 cmake-build-**/
+coverage/**.xml
+coverage/**.html
 **.pdb
 **.filters
 **.user

@@ -78,10 +78,9 @@ jobs:
       - name: Upload results to Codecov
         if: always()
         uses: codecov/codecov-action@v4
-        working-directory: ${{runner.workspace}}/coverage
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage_cobertura.xml
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: ${{runner.workspace}}/coverage/coverage_cobertura.xml
           name: codecov-dge
           fail_ci_if_error: true
           verbose: true
