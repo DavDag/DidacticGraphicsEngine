@@ -1,1 +1,1 @@
-wsl -d Ubuntu-24.04 -u davide sh "/mnt/e/Extra/DidacticGraphicsEngine/coverage/coverage.sh"
+wsl -d Ubuntu-24.04 sh "/mnt/e/Extra/DidacticGraphicsEngine/coverage/coverage.sh"
