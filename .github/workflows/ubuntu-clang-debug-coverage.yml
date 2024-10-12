@@ -79,7 +79,7 @@ jobs:
           mkdir -p coverage/xml
           mkdir -p coverage/txt
           mkdir -p coverage/json
-          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter ../engine/src --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/xml/cobertura.xml --txt ./coverage/txt/coverage.txt --json ./coverage/json/coverage.json
+          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/xml/cobertura.xml --txt ./coverage/txt/coverage.txt --json ./coverage/json/coverage.json
           echo "======================================================="
           cat ./coverage/txt/coverage.txt
           echo "======================================================="
