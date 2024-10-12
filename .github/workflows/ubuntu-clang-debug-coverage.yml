@@ -69,6 +69,10 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: ctest --extra-verbose
 
+      - name: Run for coverage
+        working-directory: ${{runner.workspace}}/build
+        run: ./tests/dge_lib_tests --gtest_color=yes
+
       - name: Generate coverage
         working-directory: ${{runner.workspace}}/build
         run: |
