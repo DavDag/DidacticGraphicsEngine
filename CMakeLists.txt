@@ -72,11 +72,15 @@ endif ()
 # Coverage report
 if (DGE_COVERAGE_REPORT)
     message(STATUS "Coverage report enabled")
-    if (MSVC)
-        message(FATAL_ERROR "Coverage report is not supported on MSVC")
+    if (NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        message(FATAL_ERROR "Coverage report is supported only on Clang")
     else ()
-        add_compile_options(--coverage)
-        add_link_options(--coverage)
+        if (NOT CMAKE_BUILD_TYPE MATCHES "Debug")
+            message(FATAL_ERROR "Coverage report requires Debug build")
+        endif ()
+        
+        # Add flags
+        add_compile_options(-fprofile-instr-generate -fcoverage-mapping -fcoverage-mcdc -ftest-coverage)
     endif ()
 endif ()
 
