@@ -59,7 +59,7 @@ jobs:
           echo "======================================================="
 
       - name: Configure CMake
-        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release -G Ninja -DDGE_COVERAGE_REPORT:BOOL=ON
+        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release -G Ninja
 
       - name: Build
         working-directory: ${{runner.workspace}}/build

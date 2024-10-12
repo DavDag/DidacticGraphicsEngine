@@ -39,16 +39,6 @@ if (MSVC)
     endif ()
 endif ()
 
-# GTest
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip # 1.14.0
-)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
-FetchContent_MakeAvailable(googletest)
-enable_testing()
-
 # Compiler version
 message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
@@ -80,9 +70,20 @@ if (DGE_COVERAGE_REPORT)
         endif ()
         
         # Add flags
-        add_compile_options(-fprofile-instr-generate -fcoverage-mapping -fcoverage-mcdc -ftest-coverage)
+        add_compile_options(--coverage)
+        add_link_options(--coverage)
     endif ()
 endif ()
+
+# GTest
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip # 1.14.0
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE) # For windows
+FetchContent_MakeAvailable(googletest)
+enable_testing()
 
 # Projects
 add_subdirectory(engine)
