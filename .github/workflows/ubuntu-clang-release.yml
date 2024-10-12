@@ -1,4 +1,4 @@
-name: ubuntu-clang
+name: ubuntu-clang-release
 
 on:
   push:
@@ -59,28 +59,12 @@ jobs:
           echo "======================================================="
 
       - name: Configure CMake
-        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Debug -G Ninja -DDGE_COVERAGE_REPORT:BOOL=ON
+        run: cmake -S . -B ${{runner.workspace}}/build -DCMAKE_BUILD_TYPE=Release -G Ninja
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config Debug
+        run: cmake --build . --config Release
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
         run: ctest --extra-verbose
-
-      - name: Generate coverage
-        working-directory: ${{runner.workspace}}/build
-        run: |
-          pipx install gcovr
-          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter /engine/src --html --html-details --html-self-contained --html-theme github.dark-green -o ../coverage/coverage_index.html --cobertura ../coverage/coverage_cobertura.xml
-
-      - name: Upload results to Codecov
-        if: always()
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          files: ${{runner.workspace}}/coverage/coverage_cobertura.xml
-          name: codecov-dge
-          fail_ci_if_error: true
-          verbose: true

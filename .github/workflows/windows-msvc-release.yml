@@ -1,4 +1,4 @@
-name: windows-msvc
+name: windows-msvc-release
 
 on:
   push:
