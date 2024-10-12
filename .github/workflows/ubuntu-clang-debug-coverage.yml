@@ -70,7 +70,7 @@ jobs:
 
       - name: Test
         working-directory: ${{runner.workspace}}/build
-        run: ctest --extra-verbose -- -j $(nproc)
+        run: ctest --extra-verbose -j $(nproc)
 
       - name: Generate coverage
         working-directory: ${{runner.workspace}}/build
