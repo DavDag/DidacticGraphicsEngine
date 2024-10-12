@@ -5,6 +5,8 @@ out/
 cmake-build-**/
 coverage/html
 coverage/xml
+coverage/txt
+coverage/json
 **.pdb
 **.filters
 **.user

@@ -73,16 +73,18 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: |
           pipx install gcovr
-          mkdir -p coverage/xml
           mkdir -p coverage/html
-          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter /engine/src --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/coverage.xml
+          mkdir -p coverage/xml
+          mkdir -p coverage/txt
+          mkdir -p coverage/json
+          gcovr -r .. --gcov-executable "llvm-cov-18 gcov" --filter /engine/src --html --html-details --html-self-contained --html-theme github.dark-green -o ./coverage/html/coverage.html --cobertura ./coverage/xml/coverage.xml --txt ./coverage/txt/coverage.txt --json ./coverage/json/coverage.json
 
       - name: Upload results to Codecov
         if: always()
         uses: codecov/codecov-action@v4
         with:
           token: ${{secrets.CODECOV_TOKEN}}
-          files: ${{runner.workspace}}/build/coverage/coverage.xml
+          files: ${{runner.workspace}}/build/coverage/txt/coverage.txt
           name: codecov-dge
           fail_ci_if_error: true
           verbose: true
