@@ -8,7 +8,7 @@ project(DGE LANGUAGES CXX)
 option(DGE_COVERAGE_REPORT "Enable coverage report" OFF)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -24,6 +24,12 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16.0)
         message(FATAL_ERROR "Clang version must be at least 16.0")
     endif ()
+    
+    # Use libc++ instead of libstdc++
+    set(CMAKE_CXX_FLAGS_INIT "-stdlib=libc++")
+    set(CMAKE_SHARED_LINKER_FLAGS_INIT "-lc++ -lc++abi")
+    set(CMAKE_EXE_LINKER_FLAGS_INIT "-lc++ -lc++abi")
+    set(CMAKE_MODULE_LINKER_FLAGS_INIT "-lc++ -lc++abi")
 endif ()
 
 # MSVC >= 19.30
@@ -73,8 +79,6 @@ if (DGE_COVERAGE_REPORT)
         add_link_options(--coverage)
     endif ()
 endif ()
-
-add_compile_options(-std=c++23)
 
 # Projects
 add_subdirectory(engine)

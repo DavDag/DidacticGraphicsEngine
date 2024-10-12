@@ -15,7 +15,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -37,8 +37,7 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
           sudo ./llvm.sh 18
-          sudo apt install clang-tools-18
-          sudo apt-get install libc++-18-dev libc++abi-18-dev
+          sudo apt install clang-tools-18 libc++-18-dev libc++abi-18-dev
 
       - name: Check versions
         run: |
@@ -49,6 +48,8 @@ jobs:
           ninja --version
           echo "================ GCC version =========================="
           gcc --version
+          echo "================ G++ version =========================="
+          g++ --version
           echo "================ Clang version ========================"
           clang-18 --version
           echo "================ Clang++ version ======================"
